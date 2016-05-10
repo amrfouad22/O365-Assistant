@@ -1,0 +1,18 @@
+{
+  "name": "o365_assistant",
+  "version": "1.0.0",
+  "description": "Bot connects to your office 365 and does some stuff for you",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amr Fouad",
+  "license": "ISC",
+  "dependencies": {
+    "adal-node": "^0.1.18",
+    "botbuilder": "^0.8.0",
+    "dateformat": "^1.0.12",
+    "node-cache": "^3.2.1",
+    "restify": "^4.0.4"
+  }
+}
