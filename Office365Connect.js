@@ -30,9 +30,10 @@ module.exports = {
         });
     }
 }
-function bookMeeting(token, name, date, time,callback) {
-    var start = new Date(date + 'T' + time);
+function bookMeeting(token, name, date,callback) {
+    var start = new Date(date);
     var end = new Date(start.getTime() + 60 * 60000);
+    console.log(start);
     request(
         {
             url: 'https://graph.microsoft.com/v1.0/users/amrfouad@insightme.onmicrosoft.com/calendar/events',
