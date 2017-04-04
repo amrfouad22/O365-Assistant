@@ -1,42 +1,33 @@
 var AuthenticationContext = require('adal-node').AuthenticationContext;
 var request = require('request');
 var O365Constants = require('./O365Constants.js');
-var NodeCache = require("node-cache");
-var myCache = new NodeCache();
 
 
 module.exports = {
     acquireToken: function (callback) {
-        myCache.get('token', function (error, value) {
-            if (error || value == undefined) {
-                var context = new AuthenticationContext(O365Constants.authorityUrl);
-                context.acquireTokenWithClientCredentials(O365Constants.resource, O365Constants.clientId, O365Constants.clientSecret,
-                    function (err, tokenResponse) {
-                        if (err) {
-                            return null;
-                        } else {
-                            myCache.set('token', tokenResponse.accessToken);
-                            callback(tokenResponse.accessToken);
-                        }
-                    });
-                return;
-            }
-            callback(value);
-        });
+        var context = new AuthenticationContext(O365Constants.authorityUrl);
+        context.acquireTokenWithClientCredentials(O365Constants.resource, O365Constants.clientId, O365Constants.clientSecret,
+            function (err, tokenResponse) {
+                if (err) {
+                    return null;
+                } else {                  
+                    callback(tokenResponse.accessToken);
+                }
+            });
     },
-    bookMeeting: function (name, date, time,callback) {
+    bookMeeting: function (name, date, time, callback) {
         this.acquireToken(function (token) {
-            bookMeeting(token, name, date, time,callback);
+            bookMeeting(token, name, date, time, callback);
         });
     }
 }
-function bookMeeting(token, name, date,callback) {
+function bookMeeting(token, name, date, callback) {
     var start = new Date(date);
     var end = new Date(start.getTime() + 60 * 60000);
     console.log(start);
     request(
         {
-            url: 'https://graph.microsoft.com/v1.0/users/amrfouad@insightme.onmicrosoft.com/calendar/events',
+            url: O365Constants.bookMeetingUrl,
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -45,7 +36,7 @@ function bookMeeting(token, name, date,callback) {
             body: {
                 'body': {
                     'contentType': 'text',
-                    'content': 'Meeting with '+ name
+                    'content': 'Meeting with ' + name
                 },
                 'reminderMinutesBeforeStart': 1024,
                 'responseRequested': true,
@@ -60,7 +51,7 @@ function bookMeeting(token, name, date,callback) {
                 },
                 'subject': 'Booked Using Office Assistant Bot'
             },
-            json:true
+            json: true
         })
         .on('error', function (err) {
             callback(err);

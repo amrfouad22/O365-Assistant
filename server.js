@@ -4,6 +4,8 @@ var request = require('request');
 var constants = require('./LuisConstant.js');
 var o365 = require('./Office365Connect.js');
 var dateFormat = require('dateformat');
+var emotion = require('./emotionAPI.js');
+var messages = require('./messageMap.js');
 
 var connector = new builder.ChatConnector({
     appId: constants.appID,
@@ -15,9 +17,19 @@ var recognizer = new builder.LuisRecognizer(constants.url);
 var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 bot.dialog('/', dialog);
 //default 
-dialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand that, please try something else.."));
+dialog.onDefault(function (session, args) {
+    if (session.message.attachments.length > 0) {
+        emotion.getEmotion(session.message.attachments[0].contentUrl, function (error, emotion) {
+            if (!error) {
+                session.send(messages.responses[emotion].message);
+            }
+            else {
+                session.send("I'm sorry. I didn't understand that, please try something else..");
+            }
+        })
+    }
+});
 //welcome
-
 dialog.matches('welcome', function (session) {
     session.send('Hi , How can I help you?');
 });
