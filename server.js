@@ -21,7 +21,12 @@ dialog.onDefault(function (session, args) {
     if (session.message.attachments.length > 0) {
         emotion.getEmotion(session.message.attachments[0].contentUrl, function (error, emotion) {
             if (!error) {
-                session.send(messages.responses[emotion].message);
+                if (emotion == null) {
+                    session.send('sorry couldn\'t detect any emotions #epicfail');
+                }
+                else {
+                    session.send(messages.responses[emotion].message);
+                }
             }
             else {
                 session.send("I'm sorry. I didn't understand that, please try something else..");
