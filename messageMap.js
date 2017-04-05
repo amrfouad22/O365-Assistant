@@ -13,7 +13,7 @@ module.exports = {
             message: 'don\'t be afraid, I\'ll try to fix something for you'
         },
         'happiness': {
-            message: 'I\'m glad that your like it'
+            message: 'I\'m glad that your liked it'
         },
         'neutral': {
             message: 'okay, can\'t really tell if your upset or not'
