@@ -99,9 +99,24 @@ dialog.matches('bookmeeting', [
         }
     },
 ]);
+//
+bot.on('conversationUpdate', function (message) {
+    console.log(message.address);
+});
+bot.on('contactRelationUpdate', function (message) {
+    console.log(message.address);
+});
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 server.post('/api/messages', connector.listen());
+server.post('/api/proactive', function (req, res) {
+    var address={};
+    var msg = new builder.Message()
+      .address(address)
+      .text(req.body);
+    bot.send(msg);
+    res.send(200);
+});
