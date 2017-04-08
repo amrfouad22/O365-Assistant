@@ -33,6 +33,9 @@ dialog.onDefault(function (session, args) {
             }
         })
     }
+    else{
+        session.send("I'm sorry. I didn't understand that, please try something else..");
+    }
 });
 //welcome
 dialog.matches('welcome', function (session) {
