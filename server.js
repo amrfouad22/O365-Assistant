@@ -108,12 +108,13 @@ bot.on('contactRelationUpdate', function (message) {
 });
 // Setup Restify Server
 var server = restify.createServer();
+server.use(restify.bodyParser());
 server.listen(process.env.port || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 server.post('/api/messages', connector.listen());
 server.post('/api/proactive', function (req, res) {
-    var address={};
+    var address=require('./address.js');
     var msg = new builder.Message()
       .address(address)
       .text(req.body);
