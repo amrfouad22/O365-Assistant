@@ -40,6 +40,7 @@ dialog.onDefault(function (session, args) {
 //welcome
 dialog.matches('welcome', function (session) {
     session.send('Hi , How can I help you?');
+    console.log(session.message.address);
 });
 //book a meeting waterfall
 dialog.matches('bookmeeting', [

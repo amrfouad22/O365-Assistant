@@ -1,9 +1,9 @@
 module.exports={
     authorityHostUrl :'https://login.windows.net',
-    tenant : 'MOD779071.onmicrosoft.com',
-    authorityUrl : 'https://login.windows.net/38f7189c-7c58-4eb7-b48f-93cccfc7cc10',
-    clientId : '078d32ee-7adc-4c20-ac3a-03d053bd26d5',
-    clientSecret : 'NTGV/frDVCbXCak5DvflJ9L9fXGVNxPgI2HX4l2ExOI=',
+    tenant : 'insight.onmicrosoft.com',
+    authorityUrl : 'https://login.windows.net/insightme.onmicrosoft.com',
+    clientId : 'b65937cd-73fc-41af-8ba2-7f9415b5ad57',
+    clientSecret : '9tdny0g7Vi+dZnojmzPH1iMqeBscYtbTrctIUNOE46k=',
     resource : 'https://graph.microsoft.com',
-    bookMeetingUrl:'https://graph.microsoft.com/v1.0/users/adelev@MOD779071.onmicrosoft.com/calendar/events'
+    bookMeetingUrl:'https://graph.microsoft.com/v1.0/users/amrfouad@insightme.onmicrosoft.com/calendar/events'
 }
