@@ -14,7 +14,9 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 
 var recognizer = new builder.LuisRecognizer(constants.url);
-var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
+var dialog = new builder.IntentDialog({
+    recognizers: [recognizer]
+});
 bot.dialog('/', dialog);
 //default 
 dialog.onDefault(function (session, args) {
@@ -23,17 +25,14 @@ dialog.onDefault(function (session, args) {
             if (!error) {
                 if (emotion == null) {
                     session.send('sorry couldn\'t detect any emotions #epicfail');
-                }
-                else {
+                } else {
                     session.send(messages.responses[emotion].message);
                 }
-            }
-            else {
+            } else {
                 session.send("I'm sorry. I didn't understand that, please try something else..");
             }
         })
-    }
-    else{
+    } else {
         session.send("I'm sorry. I didn't understand that, please try something else..");
     }
 });
@@ -55,8 +54,7 @@ dialog.matches('bookmeeting', [
     function (session, args, next) {
         if (!session.userData.name) {
             builder.Prompts.text(session, 'Who Shall I book the meeting with?');
-        }
-        else {
+        } else {
             session.userData.name = session.userData.name.entity;
             next();
         }
@@ -67,8 +65,7 @@ dialog.matches('bookmeeting', [
         }
         if (!session.userData.date || !session.userData.time) {
             builder.Prompts.time(session, 'and When you would like me to book it?');
-        }
-        else {
+        } else {
             //fix the date resolution objects
             session.userData.date = session.userData.date.resolution.date;
             session.userData.time = session.userData.time.resolution.time;
@@ -95,8 +92,7 @@ dialog.matches('bookmeeting', [
             o365.bookMeeting(session.userData.name, date, function (data) {
                 if (data.statusCode == 201) {
                     session.send('booked a meeting with %s on %s at %s', session.userData.name, session.userData.date, session.userData.time);
-                }
-                else {
+                } else {
                     session.send('Couldn\'t book the meeting please try again later');
                 }
             });
@@ -118,10 +114,23 @@ server.listen(process.env.port || 3978, function () {
 });
 server.post('/api/messages', connector.listen());
 server.post('/api/proactive', function (req, res) {
-    var address=require('./address.js');
-    var msg = new builder.Message()
-      .address(address)
-      .text(req.body);
+        var address = require('./address.js');
+        var msg = new builder.Message().address(address);
+        msg.text(req.body);
+        bot.send(msg);
+        res.send(200);
+    });
+
+server.post('/api/alert', function (req, res) {
+    var address = require('./address.js');
+    var msg = new builder.Message().address(address);
+    msg.text(req.body);
+    msg.data.channelData={
+        notification: {
+            alert: 'true'
+        }
+    };
+    msg.data.summary="this is an alert summary";
     bot.send(msg);
     res.send(200);
 });

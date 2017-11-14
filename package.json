@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "adal-node": "^0.1.22",
-    "botbuilder": "^3.8.4",
+    "botbuilder": "^3.11.0",
     "dateformat": "^1.0.12",
     "node-cache": "^3.2.1",
     "restify": "^4.0.4"
