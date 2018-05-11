@@ -15,6 +15,33 @@ module.exports = {
                 }
             });
     },
+    acquireUserCode:function(callback){
+        var context = new AuthenticationContext(O365Constants.authorityUrl);
+        context.acquireUserCode(O365Constants.resource, O365Constants.clientId2, '',
+            function (err, userCodeResponse) {
+                if (err) {
+                    return null;
+                } else {                  
+                    callback(userCodeResponse);
+                }
+            });
+    },
+    acquireTokenWithUserCode: function (userCode,callback) {
+        var context = new AuthenticationContext(O365Constants.authorityUrl);
+        context.acquireTokenWithDeviceCode(O365Constants.resource, O365Constants.clientId2,userCode,
+            function (err, tokenResponse) {
+                if (err) {
+                    return null;
+                } else {                  
+                    callback(tokenResponse.accessToken);
+                }
+            });
+    },
+    bookMeeting2:function(userCode,name,date,time,callback){
+        this.acquireTokenWithUserCode(userCode,function(token){
+            bookMeeting(token, name, date, time, callback);
+        });
+    },
     bookMeeting: function (name, date, time, callback) {
         this.acquireToken(function (token) {
             bookMeeting(token, name, date, time, callback);
