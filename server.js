@@ -54,6 +54,9 @@ dialog.matches('welcome', function (session) {
     session.send('Hi , How can I help you?');
     console.log(session.message.address);
 });
+dialog.matches('name', function (session) {
+    session.send('My name is Lucy!');
+});
 dialog.matches('signin',function(session){
     o365.acquireUserCode(function(response){
         var dialog = new builder.SigninCard(session);
@@ -113,20 +116,20 @@ dialog.matches('bookmeeting', [
             session.userData.date = dateFormat(date, 'isoDate');
             session.userData.time = dateFormat(date, 'isoTime');
             //got all the necessary information here                        
-            o365.bookMeeting2(session.userData.loggedIn,session.userData.name, date, function (data) {
+            /*o365.bookMeeting2(session.userData.loggedIn,session.userData.name, date, function (data) {
                 if (data.statusCode == 201) {
                     session.send('booked a meeting with %s on %s at %s', session.userData.name, session.userData.date, session.userData.time);
                 } else {
                     session.send('Couldn\'t book the meeting please try again later');
                 }
-            });            
-            /*o365.bookMeeting(session.userData.name, date, function (data) {
+            });*/            
+            o365.bookMeeting(session.userData.name, date, function (data) {
                 if (data.statusCode == 201) {
                     session.send('booked a meeting with %s on %s at %s', session.userData.name, session.userData.date, session.userData.time);
                 } else {
                     session.send('Couldn\'t book the meeting please try again later');
                 }
-            });*/
+            });
         }
     },
 ]);
