@@ -10,8 +10,8 @@ var azure = require('botbuilder-azure');
 
 //state store in cosmos db
 var documentDbOptions = {
-    host: 'https://insightme.documents.azure.com:443', 
-    masterKey: 'gissQgB4sDmXNlZuMgD3aUzaV2gb80bedsnFqlEFyY50c47a5nepefJ9T37Jf473xUjpR0cGybsqWgc4qemtKw==', 
+    host: 'https://o365bootcamp.documents.azure.com:443/', 
+    masterKey: '9UO2HgaqfP0jHDWN4cqW7L0PY0tctMRKDF96bPa21BQNyeyOAp72k0jcGQGVuf1gTwSWX1eTkyJh75Kufny9VQ==', 
     database: 'botdocs',   
     collection: 'botdata'
 };
